@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EscribaMed - Minutos com pacientes, não com papelada.</title>
+    <meta name="description" content="EscribaMed AI transforma consultas em Português Brasileiro em notas clínicas compatíveis—instantaneamente.">
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom Tailwind Configuration (applied via arbitrary values or CSS variables) */
+        :root {
+            --color-primary: #007C82; /* Deep Teal */
+            --color-secondary: #00B894; /* Warm Emerald */
+            --color-accent: #FF6B6B; /* Sunrise Coral */
+            --color-background-0: #FDFDFD; /* Whisper White */
+            --color-background-1: #F4FAF9; /* Soft Mist */
+            --color-neutral-1: #37474F; /* Graphite 800 */
+            --color-neutral-2: #62757F; /* Graphite 600 */
+            --color-neutral-3: #E7ECEC; /* Cloud 200 */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--color-neutral-2); /* Graphite 600 for body */
+            background-color: var(--color-background-0); /* Whisper White */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600; /* SemiBold */
+            color: var(--color-neutral-1); /* Graphite 800 for headlines */
+        }
+        
+        h1 { letter-spacing: 0.03em; /* Adjusted from 0.3em as it was too wide */ }
+
+        .btn-primary {
+            background-color: var(--color-accent);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500; /* Medium */
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            font-size: 14px;
+            padding: 0.75rem 1.5rem; /* 12px 24px */
+            border-radius: 0.375rem; /* rounded-md */
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); /* shadow-md */
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); /* shadow-lg */
+        }
+
+        .btn-secondary {
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            font-family: 'Inter', sans-serif;
+            font-weight: 500; /* Medium */
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            font-size: 14px;
+            padding: 0.75rem 1.5rem; /* 12px 24px */
+            border-radius: 0.375rem; /* rounded-md */
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-secondary:hover {
+            background-color: rgba(0, 124, 130, 0.1); /* primary with alpha */
+            transform: translateY(-3px);
+        }
+        
+        .code-snippet {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.92em;
+            background-color: #f0f0f0;
+            padding: 0.25em 0.5em;
+            border-radius: 0.25em;
+        }
+
+        /* Focus state for accessibility */
+        *:focus-visible {
+            outline: 2px dotted var(--color-secondary);
+            outline-offset: 2px;
+        }
+        
+        /* Section rhythm */
+        .section-bg-0 { background-color: var(--color-background-0); }
+        .section-bg-1 { background-color: var(--color-background-1); }
+
+        /* Custom scrollbar for a more modern feel (optional) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--color-background-1);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-primary);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-secondary);
+        }
+        
+        /* Simple fade-in for elements (can be applied with a class) */
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Apply stagger with JS or manually set animation-delay for multiple items */
+
+    </style>
+</head>
+<body class="antialiased">
+    <div id="top"></div>
+
+    <!-- Header / Navigation (Simplified for landing page) -->
+    <header class="py-4 px-6 md:px-16 lg:px-24 sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#top" class="text-2xl font-bold text-[--color-primary]">EscribaMed</a>
+            <nav class="hidden md:flex space-x-6 items-center">
+                <a href="#features" class="hover:text-[--color-primary] transition-colors">Funcionalidades</a>
+                <a href="#demo" class="hover:text-[--color-primary] transition-colors">Demonstração</a>
+                <a href="#pricing" class="hover:text-[--color-primary] transition-colors">Preços</a>
+                <a href="#footer" class="hover:text-[--color-primary] transition-colors">Contato</a>
+                <a href="#pricing" class="btn-primary !py-2 !px-4">Experimente Grátis</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-[--color-primary]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu (Hidden by default, can be toggled with JS) -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-white shadow-lg p-4">
+            <a href="#features" class="block py-2 hover:text-[--color-primary]">Funcionalidades</a>
+            <a href="#demo" class="block py-2 hover:text-[--color-primary]">Demonstração</a>
+            <a href="#pricing" class="block py-2 hover:text-[--color-primary]">Preços</a>
+            <a href="#footer" class="block py-2 hover:text-[--color-primary]">Contato</a>
+            <a href="#pricing" class="block mt-2 text-center btn-primary w-full">Experimente Grátis</a>
+        </div>
+    </header>
+
+    <!-- SECTION: Hero (Fold 0) -->
+    <section class="section-bg-1 relative min-h-[60vh] md:min-h-[80vh] flex items-center overflow-hidden">
+        <!-- Background Gradient & Placeholder for Illustration -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[--color-background-1] to-[--color-background-0]"></div>
+        <div class="absolute inset-0 opacity-10" style="background-image: url('/placeholder.svg?width=1200&height=800&text=Blurred+Stethoscope+to+Waveform+Art'); background-size: cover; background-position: center; filter: blur(8px);">
+            <!-- Placeholder for blurred line-art illustration -->
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-6 md:px-16 lg:px-24 py-16 md:py-24 grid md:grid-cols-2 gap-8 items-center">
+            <div class="text-center md:text-left">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold text-[--color-neutral-1] mb-6 fade-in-up" style="line-height: 1.2;">
+                    Passe minutos com pacientes, <span class="text-[--color-primary]">não na papelada.</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-[--color-neutral-2] mb-10 fade-in-up" style="animation-delay: 0.2s;">
+                    EscribaMed AI transforma consultas em Português Brasileiro em notas clínicas compatíveis—instantaneamente.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start fade-in-up" style="animation-delay: 0.4s;">
+                    <a href="#pricing" class="btn-primary w-full sm:w-auto">Experimente Grátis</a>
+                    <a href="#demo" class="btn-secondary w-full sm:w-auto flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                        Ver Demo de 90s
+                    </a>
+                </div>
+            </div>
+            <div class="mt-12 md:mt-0 fade-in-up" style="animation-delay: 0.6s;">
+                <img src="/placeholder.svg?width=600&height=400&text=MacBook+Pro+SOAP+Note+Mockup" alt="MacBook Pro mostrando o EscribaMed populando uma nota SOAP em tempo real" class="rounded-lg shadow-2xl mx-auto w-full max-w-lg">
+                <!-- For WebP: <img src="path/to/macbook-mockup.webp" ... > -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: Social Proof Bar -->
+    <div class="sticky top-[68px] md:top-[76px] z-40 py-3 bg-white/70 backdrop-blur-md shadow-sm">
+        <div class="max-w-5xl mx-auto px-6 md:px-16 lg:px-24">
+            <div class="flex justify-around items-center gap-4 sm:gap-8">
+                <span class="text-sm text-[--color-neutral-2] hidden sm:inline">Confiança de clínicas líderes:</span>
+                <!-- Placeholder logos -->
+                <img src="/placeholder.svg?width=100&height=30&text=Clinica+A" alt="Logo Clínica A" class="h-6 sm:h-8 opacity-70 hover:opacity-100 transition-opacity" title="Clínica A mudou para EscribaMed em Abril 2025">
+                <img src="/placeholder.svg?width=100&height=30&text=Clinica+B" alt="Logo Clínica B" class="h-6 sm:h-8 opacity-70 hover:opacity-100 transition-opacity" title="Clínica B mudou para EscribaMed em Abril 2025">
+                <img src="/placeholder.svg?width=100&height=30&text=Clinica+C" alt="Logo Clínica C" class="h-6 sm:h-8 opacity-70 hover:opacity-100 transition-opacity" title="Clínica C mudou para EscribaMed em Abril 2025">
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION: Problem 'Paper Mountain' Strip -->
+    <section class="section-bg-0 py-16 md:py-24 px-6 md:px-16 lg:px-24">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-semibold text-[--color-neutral-1] mb-4">
+                Sua montanha de papelada está crescendo?
+            </h2>
+            <p class="text-lg text-[--color-neutral-2] mb-8">
+                Médicos gastam horas preciosas em documentação. Tempo que poderia ser usado para o que realmente importa: seus pacientes.
+                Vamos desenterrar você dessa papelada.
+            </p>
+            <img src="/placeholder.svg?width=700&height=300&text=Illustration+of+Paper+Mountain" alt="Ilustração de uma montanha de papéis" class="mx-auto rounded-lg shadow-md">
+        </div>
+    </section>
+
+    <!-- SECTION: Solution Deep Dive (Feature Cards) -->
+    <section id="features" class="section-bg-1 py-16 md:py-24 px-6 md:px-16 lg:px-24">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-3xl md:text-4xl font-semibold text-[--color-neutral-1] mb-4">Eficiência e Cuidado em Cada Nota</h2>
+                <p class="text-lg text-[--color-neutral-2] max-w-3xl mx-auto">
+                    Descubra como o EscribaMed simplifica seu fluxo de trabalho clínico com tecnologia inteligente e intuitiva.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature Card 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-[--color-neutral-3] hover:shadow-xl transition-shadow fade-in-up">
+                    <div class="flex items-center text-[--color-primary] mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+                        <h3 class="text-xl font-semibold ml-3 text-[--color-neutral-1]">Transcrição em Tempo Real</h3>
+                    </div>
+                    <p class="text-[--color-neutral-2] text-sm leading-relaxed">
+                        Nossa IA captura com precisão o diálogo da consulta em Português Brasileiro, adaptando-se a diversos sotaques.
+                    </p>
+                </div>
+                <!-- Feature Card 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-[--color-neutral-3] hover:shadow-xl transition-shadow fade-in-up" style="animation-delay: 0.1s;">
+                     <div class="flex items-center text-[--color-primary] mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        <h3 class="text-xl font-semibold ml-3 text-[--color-neutral-1]">Biblioteca de Modelos</h3>
+                    </div>
+                    <p class="text-[--color-neutral-2] text-sm leading-relaxed">
+                        Use nossos modelos clínicos ou crie os seus. Arraste e solte para personalizar notas rapidamente.
+                    </p>
+                </div>
+                <!-- Feature Card 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-[--color-neutral-3] hover:shadow-xl transition-shadow fade-in-up" style="animation-delay: 0.2s;">
+                     <div class="flex items-center text-[--color-primary] mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path><path d="M2 8c0-2.2.7-4.3 2-6"></path><path d="M22 8c0-2.2-.7-4.3-2-6"></path><line x1="12" y1="2" x2="12" y2="3"></line></svg>
+                        <h3 class="text-xl font-semibold ml-3 text-[--color-neutral-1]">Exportação 1-Clique para PEP</h3>
+                    </div>
+                    <p class="text-[--color-neutral-2] text-sm leading-relaxed">
+                        Integre facilmente com os principais Prontuários Eletrônicos do Paciente. Veja nossa lista de plugins.
+                    </p>
+                </div>
+                <!-- Feature Card 4 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-[--color-neutral-3] hover:shadow-xl transition-shadow fade-in-up" style="animation-delay: 0.3s;">
+                     <div class="flex items-center text-[--color-primary] mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        <h3 class="text-xl font-semibold ml-3 text-[--color-neutral-1]">Pronto para LGPD & ANVISA</h3>
+                    </div>
+                    <p class="text-[--color-neutral-2] text-sm leading-relaxed">
+                        Segurança e conformidade são nossa prioridade. Software como Dispositivo Médico (SaMD) em conformidade.
+                    </p>
+                </div>
+                <!-- Feature Card 5 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-[--color-neutral-3] hover:shadow-xl transition-shadow fade-in-up" style="animation-delay: 0.4s;">
+                     <div class="flex items-center text-[--color-primary] mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path><path d="M17.5 2.5a4.95 4.95 0 0 1 0 7L12 15l-5.5-5.5a4.95 4.95 0 0 1 0-7A4.95 4.95 0 0 1 12 5c1.25 0 2.4-.45 3.25-1.25A4.95 4.95 0 0 1 17.5 2.5z"></path></svg>
+                        <h3 class="text-xl font-semibold ml-3 text-[--color-neutral-1]">Funciona em Qualquer Dispositivo</h3>
+                    </div>
+                    <p class="text-[--color-neutral-2] text-sm leading-relaxed">
+                        Acesse o EscribaMed de seu computador, tablet ou smartphone. Seus dados sincronizados na nuvem.
+                    </p>
+                </div>
+                <!-- Feature Card 6 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-[--color-neutral-3] hover:shadow-xl transition-shadow fade-in-up" style="animation-delay: 0.5s;">
+                     <div class="flex items-center text-[--color-primary] mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                        <h3 class="text-xl font-semibold ml-3 text-[--color-neutral-1]">Preço Conforme o Uso</h3>
+                    </div>
+                    <p class="text-[--color-neutral-2] text-sm leading-relaxed">
+                        Planos flexíveis que se adaptam ao tamanho da sua clínica e volume de uso. Sem contratos longos.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: 90-Second Demo -->
+    <section id="demo" class="section-bg-0 py-16 md:py-24 px-6 md:px-16 lg:px-24">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-3xl md:text-4xl font-semibold text-[--color-neutral-1] mb-4">Veja o EscribaMed em Ação</h2>
+                <p class="text-lg text-[--color-neutral-2]">
+                    Gravado em uma clínica real de São Paulo—sem atores, sem scripts.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8 items-center">
+                <div class="md:col-span-2 aspect-video rounded-lg shadow-2xl overflow-hidden">
+                    <!-- YouTube Embed -->
+                    <iframe 
+                        class="w-full h-full" 
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&mute=1&controls=1&rel=0" 
+                        title="Vídeo de demonstração do EscribaMed" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                        loading="lazy"
+                        preload="none">
+                    </iframe>
+                    <!-- For self-hosted MP4:
+                    <video controls preload="none" class="w-full h-full" poster="/placeholder.svg?width=600&height=338&text=Video+Poster">
+                        <source src="path/to/demo-video.mp4" type="video/mp4">
+                        Seu navegador não suporta o elemento de vídeo.
+                    </video>
+                    -->
+                </div>
+                <div class="text-center md:text-left">
+                    <div class="bg-[--color-background-1] p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-[--color-primary] mb-3">Resultados Reais</h3>
+                        <p class="text-4xl font-bold text-[--color-neutral-1] mb-1">0<span class="text-2xl">s</span></p>
+                        <p class="text-[--color-neutral-2] mb-4">tempo de digitação após consulta de 130s</p>
+                        <p class="text-4xl font-bold text-[--color-neutral-1] mb-1">98<span class="text-2xl">%</span></p>
+                        <p class="text-[--color-neutral-2]">precisão clínica</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: Pricing Plans -->
+    <section id="pricing" class="section-bg-1 py-16 md:py-24 px-6 md:px-16 lg:px-24">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-3xl md:text-4xl font-semibold text-[--color-neutral-1] mb-4">Planos Simples e Transparentes</h2>
+                <p class="text-lg text-[--color-neutral-2] max-w-2xl mx-auto">
+                    Escolha o plano que melhor se adapta às suas necessidades. Comece gratuitamente.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+                <!-- Free Plan -->
+                <div class="bg-white p-8 rounded-lg shadow-xl border border-[--color-neutral-3] flex flex-col fade-in-up">
+                    <h3 class="text-2xl font-semibold text-[--color-neutral-1] mb-2">Gratuito</h3>
+                    <p class="text-4xl font-bold text-[--color-primary] mb-1">R$0</p>
+                    <p class="text-[--color-neutral-2] mb-6">5 notas/mês</p>
+                    <ul class="space-y-2 text-[--color-neutral-2] mb-8 flex-grow">
+                        <li class="flex items-center"><svg class="w-5 h-5 text-[--color-secondary] mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Experimente as funcionalidades</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-[--color-secondary] mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Suporte comunitário</li>
+                    </ul>
+                    <a href="#" class="btn-secondary w-full text-center">Comece Agora</a>
+                </div>
+
+                <!-- Pro Plan (Highlighted) -->
+                <div class="bg-white p-8 rounded-lg shadow-2xl border-2 border-[--color-secondary] relative flex flex-col fade-in-up" style="animation-delay: 0.1s;">
+                    <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[--color-secondary] text-white text-xs font-semibold px-3 py-1 rounded-full">MAIS POPULAR</span>
+                    <h3 class="text-2xl font-semibold text-[--color-neutral-1] mb-2">Pro</h3>
+                    <p class="text-4xl font-bold text-[--color-primary] mb-1">R$200</p>
+                    <p class="text-[--color-neutral-2] mb-6">/médico/mês</p>
+                    <ul class="space-y-2 text-[--color-neutral-2] mb-8 flex-grow">
+                        <li class="flex items-center"><svg class="w-5 h-5 text-[--color-secondary] mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Notas ilimitadas</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-[--color-secondary] mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>NLP prioritário</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-[--color-secondary] mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Suporte prioritário</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-[--color-secondary] mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Todas as integrações PEP</li>
+                    </ul>
+                    <a href="#" class="btn-primary w-full text-center">Escolher Pro</a>
+                </div>
+
+                <!-- Clinic Plan -->
+                <div class="bg-white p-8 rounded-lg shadow-xl border border-[--color-neutral-3] flex flex-col fade-in-up" style="animation-delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-[--color-neutral-1] mb-2">Clínica</h3>
+                    <p class="text-4xl font-bold text-[--color-primary] mb-1">Contato</p>
+                    <p class="text-[--color-neutral-2] mb-6">Desconto por volume</p>
+                    <ul class="space-y-2 text-[--color-neutral-2] mb-8 flex-grow">
+                        <li class="flex items-center"><svg class="w-5 h-5 text-[--color-secondary] mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Tudo do Pro, e mais:</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-[--color-secondary] mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Faturamento unificado</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-[--color-secondary] mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Painel de administração</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-[--color-secondary] mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Gerente de contas dedicado</li>
+                    </ul>
+                    <a href="#footer" class="btn-secondary w-full text-center">Fale Conosco</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: Footer -->
+    <footer id="footer" class="section-bg-0 text-[--color-neutral-2] pt-16 pb-8 px-6 md:px-16 lg:px-24 border-t border-[--color-neutral-3]">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+                <div class="lg:col-span-2">
+                    <h4 class="text-xl font-semibold text-[--color-primary] mb-4">EscribaMed</h4>
+                    <p class="mb-4 text-sm">Revolucionando a documentação clínica para que você possa focar no cuidado ao paciente.</p>
+                    <form class="flex gap-2">
+                        <input type="email" placeholder="Seu e-mail clínico" class="w-full px-4 py-2 border border-[--color-neutral-3] rounded-md focus:border-[--color-secondary] focus:ring-1 focus:ring-[--color-secondary] text-sm" aria-label="Seu e-mail clínico">
+                        <button type="submit" class="btn-primary !py-2 !px-4 text-sm">Inscrever</button>
+                    </form>
+                </div>
+                <div>
+                    <h5 class="font-semibold text-[--color-neutral-1] mb-4">Produto</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#features" class="hover:text-[--color-primary]">Funcionalidades</a></li>
+                        <li><a href="#pricing" class="hover:text-[--color-primary]">Preços</a></li>
+                        <li><a href="#demo" class="hover:text-[--color-primary]">Demonstração</a></li>
+                        <li><a href="#" class="hover:text-[--color-primary]">Integrações</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-semibold text-[--color-neutral-1] mb-4">Recursos</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-[--color-primary]">Blog</a></li>
+                        <li><a href="#" class="hover:text-[--color-primary]">Central de Ajuda</a></li>
+                        <li><a href="#" class="hover:text-[--color-primary]">API Docs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-semibold text-[--color-neutral-1] mb-4">Empresa</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-[--color-primary]">Sobre Nós</a></li>
+                        <li><a href="#" class="hover:text-[--color-primary]">Carreiras</a></li>
+                        <li><a href="#" class="hover:text-[--color-primary]">Contato</a></li>
+                        <li><a href="#" class="hover:text-[--color-primary]">Termos de Serviço</a></li>
+                        <li><a href="#" class="hover:text-[--color-primary]">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-[--color-neutral-3] pt-8 flex flex-col md:flex-row justify-between items-center text-sm">
+                <p class="mb-4 md:mb-0">&copy; <span id="currentYear"></span> EscribaMed. Todos os direitos reservados.</p>
+                <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                    <!-- Language Toggle UI -->
+                    <span class="font-semibold">🇧🇷 PT-BR</span>
+                    <a href="#" class="text-[--color-neutral-3] hover:text-[--color-primary]">🇺🇸 EN-US</a>
+                    <span class="text-[--color-neutral-3]">(ES em breve)</span>
+                </div>
+                <div class="flex space-x-4">
+                    <!-- Social Icons (Placeholders) -->
+                    <a href="#" aria-label="LinkedIn" class="text-[--color-neutral-2] hover:text-[--color-primary]"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                    <a href="#" aria-label="Twitter / X" class="text-[--color-neutral-2] hover:text-[--color-primary]"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+                    <a href="#" aria-label="YouTube" class="text-[--color-neutral-2] hover:text-[--color-primary]"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29 29 0 0 0 23 11.75a29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
+                </div>
+            </div>
+            <p class="text-center text-xs mt-8 text-[--color-neutral-3]">Feito com ❤️ no Brasil & bits in the cloud.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll-to-top FAB (simple anchor) -->
+    <a href="#top" aria-label="Voltar ao topo" class="fixed bottom-6 right-6 bg-[--color-primary] text-white p-3 rounded-full shadow-lg hover:bg-[--color-secondary] transition-colors z-50">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </a>
+
+    <script>
+        // Simple script for current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Simple mobile menu toggle
+        const menuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuButton && mobileMenu) {
+            menuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            // Close menu when a link is clicked
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+    </script>
+</body>
+</html>
